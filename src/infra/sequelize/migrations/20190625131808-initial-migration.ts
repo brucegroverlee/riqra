@@ -5,7 +5,7 @@ export default {
   up: (queryInterface, Sequelize) => {
     const CREATE_USERS = () => (
       queryInterface.createTable('users', {
-        base_user_id: {
+        id: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
           allowNull: false,
@@ -19,20 +19,15 @@ export default {
           type: Sequelize.STRING(250),
           allowNull: false
         },
-        user_email: {
+        email: {
           type: Sequelize.STRING(250),
           allowNull: false,
           unique: true
         },
-        user_password: {
+        password: {
           type: Sequelize.STRING,
           allowNull: true,
           defaultValue: null
-        },
-        is_email_verified: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
         },
         username: {
           type: Sequelize.STRING(250),

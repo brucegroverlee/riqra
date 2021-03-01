@@ -1,7 +1,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   const Users = sequelize.define('users', {
-    base_user_id: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
@@ -15,21 +15,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(250),
       allowNull: false
     },
-    user_email: {
+    email: {
       type: DataTypes.STRING(250),
       allowNull: false,
       unique: true
-    },
-    is_email_verified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
     },
     username: {
       type: DataTypes.STRING(250),
       allowNull: true
     },
-    user_password: {
+    password: {
       type: DataTypes.STRING,
       allowNull: true,
       defaultValue: null
@@ -39,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true, 
     tableName: 'users',
     indexes: [
-      { unique: true, fields: ['user_email'] },
+      { unique: true, fields: ['email'] },
     ]
   });
 

@@ -1,7 +1,8 @@
 
-import { User } from "../domain/user";
+import { User } from "../../domain/user";
 import { UserMap } from "../mappers/UserMap";
-import { UserEmail } from "../domain/userEmail";
+import { UserEmail } from "../../domain/userEmail";
+import { UserPassword } from "../../domain/userPassword";
 
 export interface IUserRepo {
   findUserByEmail(email: UserEmail): Promise<User>;
@@ -35,15 +36,23 @@ export class UserRepo implements IUserRepo {
 
   public async findUserByEmail(email: UserEmail): Promise<User> {
     const baseQuery = this.createBaseQuery();
-    baseQuery.where['user_email'] = email.value.toString();
+    baseQuery.where['email'] = email.value.toString();
     const user = await this.models.Users.findOne(baseQuery);
-    if (!!user === true) return user;
+    if (!!user === true) {
+      const _user = User.create({ 
+        email: UserEmail.create(user.email).getValue(), // user.email, 
+        password: UserPassword.create({ value: user.password, }).getValue(), // user.password, 
+        firstName: user.first_name, 
+        lastName: user.last_name
+      }, user.id);
+      return _user.getValue();
+    }
     return null;
   }
 
   public async exists (email: UserEmail): Promise<boolean> {
     const baseQuery = this.createBaseQuery();
-    baseQuery.where['user_email'] = email.value.toString();
+    baseQuery.where['email'] = email.value.toString();
     const user = await this.models.Users.findOne(baseQuery);
     return !!user === true;
   }
@@ -62,7 +71,7 @@ export class UserRepo implements IUserRepo {
       else {
         // Save old
         const sequelizeUserInstance = await BaseUserModel.findOne({ 
-          where: { user_email: user.email.value }
+          where: { email: user.email.value }
         })
         await sequelizeUserInstance.update(rawUser);
       }

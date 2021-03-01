@@ -2,7 +2,7 @@
 import { UseCase } from "../../../../core/domain/UseCase";
 import { User } from "../../domain/user";
 import { Result } from "../../../../core/logic/Result";
-import { IUserRepo } from "../../repos/userRepo";
+import { IUserRepo } from "../../infra/repos/userRepo";
 
 interface Request {
   user: User;

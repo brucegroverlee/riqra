@@ -12,10 +12,10 @@ const dispatchEventsCallback = (model: any, primaryKeyField: string) => {
 
   const { Users } = models;
 
-  Users.addHook('afterCreate', (m: any) => dispatchEventsCallback(m, 'base_user_id'));
-  Users.addHook('afterDestroy', (m: any) => dispatchEventsCallback(m, 'base_user_id'));
-  Users.addHook('afterUpdate', (m: any) => dispatchEventsCallback(m, 'base_user_id'));
-  Users.addHook('afterSave', (m: any) => dispatchEventsCallback(m, 'base_user_id'));
-  Users.addHook('afterUpsert', (m: any) => dispatchEventsCallback(m, 'base_user_id'));
+  Users.addHook('afterCreate', (m: any) => dispatchEventsCallback(m, 'id'));
+  Users.addHook('afterDestroy', (m: any) => dispatchEventsCallback(m, 'id'));
+  Users.addHook('afterUpdate', (m: any) => dispatchEventsCallback(m, 'id'));
+  Users.addHook('afterSave', (m: any) => dispatchEventsCallback(m, 'id'));
+  Users.addHook('afterUpsert', (m: any) => dispatchEventsCallback(m, 'id'));
 
 })();

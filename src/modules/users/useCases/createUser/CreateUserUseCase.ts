@@ -5,7 +5,7 @@ import { Either, Result, left, right } from "../../../../core/logic/Result";
 import { UserEmail } from "../../domain/userEmail";
 import { UserPassword } from "../../domain/userPassword";
 import { User } from "../../domain/user";
-import { IUserRepo } from "../../repos/userRepo";
+import { IUserRepo } from "../../infra/repos/userRepo";
 import { CreateUserErrors } from "./CreateUserErrors";
 import { GenericAppError } from "../../../../core/logic/AppError";
 
@@ -39,8 +39,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
       email: emailOrError.getValue(), 
       password: passwordOrError.getValue(), 
       firstName, 
-      lastName,
-      isEmailVerified: false
+      lastName
     });
 
     if (userOrError.isFailure) {
@@ -49,18 +48,25 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
 
     const user: User = userOrError.getValue();
 
-    const userAlreadyExists = await this.userRepo.exists(user.email);
-
-    if (userAlreadyExists) {
-      return left(new CreateUserErrors.AccountAlreadyExists(user.email.value)) as Response;
-    }
-
     try {
-      await this.userRepo.save(user);
+      const userAlreadyExists = await this.userRepo.findUserByEmail(user.email);
+
+      // if the email and password are the same, ...nothing
+      if (!!userAlreadyExists) {
+        // if the password is incorrect, returns error "Oops! wrong password"
+        const reqPass = passwordOrError.getValue();
+        const repPass = userAlreadyExists.password;
+        if (!repPass.equals(reqPass)) {
+          return left(new CreateUserErrors.InvalidPassword()) as Response;
+        }
+      } else {
+        // if the email does not exist a new user is automatically created
+        await this.userRepo.save(user);
+      }
+      // returns token
+      return right(Result.ok<void>()) as Response;
     } catch (err) {
       return left(new GenericAppError.UnexpectedError(err)) as Response;
     }
-
-    return right(Result.ok<void>()) as Response;
   }
 }

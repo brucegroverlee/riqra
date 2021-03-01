@@ -12,10 +12,6 @@ interface UserProps {
   lastName: string;
   email: UserEmail;
   password: UserPassword;
-  isEmailVerified: boolean;
-  profilePicture?: string;
-  googleId?: number;
-  facebookId?: number;
   username?: string;
 }
 
@@ -44,22 +40,6 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.password;
   }
 
-  get isEmailVerified (): boolean {
-    return this.props.isEmailVerified;
-  }
-
-  get profilePicture (): string {
-    return this.props.profilePicture;
-  }
-
-  get googleId (): number {
-    return this.props.googleId;
-  }
-
-  get facebookId (): number {
-    return this.props.facebookId;
-  }
-
   get username (): string {
     return this.props.username;
   }
@@ -72,26 +52,13 @@ export class User extends AggregateRoot<UserProps> {
     super(props, id);
   }
 
-  private static isRegisteringWithGoogle (props: UserProps): boolean {
-    return !!props.googleId === true;
-  }
-
-  private static isRegisteringWithFacebook (props: UserProps): boolean {
-    return !!props.facebookId === true;
-  }
-
   public static create (props: UserProps, id?: UniqueEntityID): Result<User> {
 
     const guardedProps = [
       { argument: props.firstName, argumentName: 'firstName' },
       { argument: props.lastName, argumentName: 'lastName' },
       { argument: props.email, argumentName: 'email' },
-      { argument: props.isEmailVerified, argumentName: 'isEmailVerified' }
     ];
-
-    if (!this.isRegisteringWithGoogle(props) && !this.isRegisteringWithFacebook(props) ) {
-      guardedProps.push({ argument: props.password, argumentName: 'password' })
-    }
 
     const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
 

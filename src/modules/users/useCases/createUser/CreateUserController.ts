@@ -22,7 +22,7 @@ export class CreateUserController extends BaseController {
         const error = result.value;
   
         switch (error.constructor) {
-          case CreateUserErrors.AccountAlreadyExists:
+          case CreateUserErrors.InvalidPassword:
             return this.conflict(error.errorValue().message)
           default:
             return this.fail(error.errorValue().message);
