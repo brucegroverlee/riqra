@@ -2,7 +2,6 @@
 import { User } from "../../domain/user";
 import { UserMap } from "../mappers/UserMap";
 import { UserEmail } from "../../domain/userEmail";
-import { UserPassword } from "../../domain/userPassword";
 
 export interface IUserRepo {
   findUserByEmail(email: UserEmail): Promise<User>;
@@ -39,13 +38,7 @@ export class UserRepo implements IUserRepo {
     baseQuery.where['email'] = email.value.toString();
     const user = await this.models.Users.findOne(baseQuery);
     if (!!user === true) {
-      const _user = User.create({ 
-        email: UserEmail.create(user.email).getValue(), // user.email, 
-        password: UserPassword.create({ value: user.password, }).getValue(), // user.password, 
-        firstName: user.first_name, 
-        lastName: user.last_name
-      }, user.id);
-      return _user.getValue();
+      return UserMap.toDomain(user);
     }
     return null;
   }

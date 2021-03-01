@@ -2,6 +2,8 @@
 import { BaseController } from "../../../../core/infra/BaseController";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 import { CreateUserDTO } from "./CreateUserDTO";
+import { ITokenDTO } from "./ITokenDTO";
+import { Result, Right } from "../../../../core/logic/Result";
 import { CreateUserErrors } from "./CreateUserErrors";
 
 export class CreateUserController extends BaseController {
@@ -28,7 +30,8 @@ export class CreateUserController extends BaseController {
             return this.fail(error.errorValue().message);
         }
       } else {
-        return this.ok(this.res);
+        const parsedResult = result as Right< {}, Result<ITokenDTO>>;
+        return this.ok<ITokenDTO>(this.res, parsedResult.value.getValue());
       }
 
     } catch (err) {

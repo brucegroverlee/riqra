@@ -20,7 +20,7 @@ export class UserMap extends Mapper<User> {
 
   public static toDomain (raw: any): User {
     const userEmailOrError = UserEmail.create(raw.email);
-    const userPasswordOrError = UserPassword.create(raw.password);
+    const userPasswordOrError = UserPassword.create({ value: raw.password, });
 
     const userOrError = User.create({
       email: userEmailOrError.getValue(),

@@ -1,9 +1,11 @@
 
 import { UseCase } from "../../../../core/domain/UseCase";
 import { CreateUserDTO } from "./CreateUserDTO";
+import { ITokenDTO } from "./ITokenDTO";
 import { Either, Result, left, right } from "../../../../core/logic/Result";
 import { UserEmail } from "../../domain/userEmail";
 import { UserPassword } from "../../domain/userPassword";
+import { UserToken } from "../../domain/userToken";
 import { User } from "../../domain/user";
 import { IUserRepo } from "../../infra/repos/userRepo";
 import { CreateUserErrors } from "./CreateUserErrors";
@@ -13,7 +15,7 @@ type Response = Either<
   GenericAppError.UnexpectedError |
   CreateUserErrors.AccountAlreadyExists |
   Result<any>, 
-  Result<void>
+  Result<ITokenDTO>
 >
 
 export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Response>> {
@@ -63,8 +65,14 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
         // if the email does not exist a new user is automatically created
         await this.userRepo.save(user);
       }
+      const tokenOrError = UserToken.create({
+        userId: userAlreadyExists.id,
+        email: userAlreadyExists.email,
+        // supplier: userAlreadyExists.supplier
+      });
+      const token = tokenOrError.getValue();
       // returns token
-      return right(Result.ok<void>()) as Response;
+      return right(Result.ok<ITokenDTO>({ token: token.value, })) as Response;
     } catch (err) {
       return left(new GenericAppError.UnexpectedError(err)) as Response;
     }

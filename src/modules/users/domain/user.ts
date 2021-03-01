@@ -1,7 +1,6 @@
 import { AggregateRoot } from "../../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../../core/domain/UniqueEntityID";
 import { Result } from "../../../core/logic/Result";
-import { UserId } from "./userId";
 import { UserEmail } from "./userEmail";
 import { Guard } from "../../../core/logic/Guard";
 import { UserCreatedEvent } from "./events/userCreatedEvent";
@@ -18,10 +17,6 @@ interface UserProps {
 export class User extends AggregateRoot<UserProps> {
   get id (): UniqueEntityID {
     return this._id;
-  }
-
-  get userId (): UserId {
-    return UserId.caller(this.id)
   }
 
   get email (): UserEmail {
