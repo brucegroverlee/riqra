@@ -4,6 +4,7 @@ import { User } from "../../domain/user";
 import { UniqueEntityID } from "../../../../core/domain/UniqueEntityID";
 import { UserEmail } from "../../domain/userEmail";
 import { UserPassword } from "../../domain/userPassword";
+import { Supplier } from "../../domain/Supplier";
 
 export class UserMap extends Mapper<User> {
 
@@ -14,6 +15,7 @@ export class UserMap extends Mapper<User> {
       password: user.password.value,
       first_name: user.firstName,
       last_name: user.lastName,
+      supplier: user.supplier.value,
       username: user.username
     }
   }
@@ -21,12 +23,14 @@ export class UserMap extends Mapper<User> {
   public static toDomain (raw: any): User {
     const userEmailOrError = UserEmail.create(raw.email);
     const userPasswordOrError = UserPassword.create({ value: raw.password, });
+    const userSupplierOrError = Supplier.create(raw.supplier);
 
     const userOrError = User.create({
       email: userEmailOrError.getValue(),
       password: userPasswordOrError.getValue(),
       firstName: raw.first_name,
       lastName: raw.last_name,
+      supplier: userSupplierOrError.getValue(),
       username: raw.username
     }, new UniqueEntityID(raw.id))
 

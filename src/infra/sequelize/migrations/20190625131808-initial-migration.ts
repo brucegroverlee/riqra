@@ -29,6 +29,10 @@ export default {
           allowNull: true,
           defaultValue: null
         },
+        supplier: {
+          type: Sequelize.STRING(250),
+          allowNull: true
+        },
         username: {
           type: Sequelize.STRING(250),
           allowNull: true

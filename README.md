@@ -4,12 +4,12 @@ The assignment is designed to check your coding and problem-solving skills. We s
 
 Things we require your code to have:
 
-- Domain model design (usage of DDD concepts: aggregates, value objects, domain services, etc)
-- Messaging (Commands and Events)
-- Code organization (modularity, dependencies between modules, etc)
-- Exception handling and logging
-- Writing and organizing tests
-- Task-based asynchronous programming
+[x] Domain model design (usage of DDD concepts: aggregates, value objects, domain services, etc)
+[x] Messaging (Commands and Events)
+[x] Code organization (modularity, dependencies between modules, etc)
+[x] Exception handling and logging
+[] Writing and organizing tests
+[x] Task-based asynchronous programming
 
 No UI needed.
 
@@ -19,16 +19,16 @@ User catalog personalization.
 
 #### Auth Module
 
-- When the email exists and the password is incorrect the API must respond "Oops! wrong password".
-- When the email exists and password is correct a new token is generated for further requests.
-- When the email does not exist a new user is automatically created (auto signup) and a new token is generated for further requests.
-- When a new user is created a welcome email is sent to its inbox.
-- When a new user is registered a supplier is randomly assigned to its account.
+[x] When the email exists and the password is incorrect the API must respond "Oops! wrong password".
+[x] When the email exists and password is correct a new token is generated for further requests.
+[x] When the email does not exist a new user is automatically created (auto signup) and a new token is generated for further requests.
+[] When a new user is created a welcome email is sent to its inbox.
+[x] When a new user is registered a supplier is randomly assigned to its account.
 
 #### Catalog Module
 
-- The user can search for a product using a term
-- The user can list all available products depending on its supplier.
+[] The user can search for a product using a term
+[] The user can list all available products depending on its supplier.
 
 catalog shape example:
 ```json

@@ -5,6 +5,7 @@ import { ITokenDTO } from "./ITokenDTO";
 import { Either, Result, left, right } from "../../../../core/logic/Result";
 import { UserEmail } from "../../domain/userEmail";
 import { UserPassword } from "../../domain/userPassword";
+import { Supplier } from "../../domain/Supplier";
 import { UserToken } from "../../domain/userToken";
 import { User } from "../../domain/user";
 import { IUserRepo } from "../../infra/repos/userRepo";
@@ -40,6 +41,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
     const userOrError = User.create({ 
       email: emailOrError.getValue(), 
       password: passwordOrError.getValue(), 
+      supplier: Supplier.generate(),
       firstName, 
       lastName
     });
@@ -48,7 +50,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
       return left(Result.fail<void>(combinedPropsResult.error)) as Response;
     }
 
-    const user: User = userOrError.getValue();
+    let user: User = userOrError.getValue();
 
     try {
       const userAlreadyExists = await this.userRepo.findUserByEmail(user.email);
@@ -56,19 +58,20 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
       // if the email and password are the same, ...nothing
       if (!!userAlreadyExists) {
         // if the password is incorrect, returns error "Oops! wrong password"
-        const reqPass = passwordOrError.getValue();
-        const repPass = userAlreadyExists.password;
-        if (!repPass.equals(reqPass)) {
+        const requestPassword = passwordOrError.getValue();
+        const repositoryPassword = userAlreadyExists.password;
+        if (!repositoryPassword.equals(requestPassword)) {
           return left(new CreateUserErrors.InvalidPassword()) as Response;
         }
+        user = userAlreadyExists;
       } else {
         // if the email does not exist a new user is automatically created
         await this.userRepo.save(user);
       }
       const tokenOrError = UserToken.create({
-        userId: userAlreadyExists.id,
-        email: userAlreadyExists.email,
-        // supplier: userAlreadyExists.supplier
+        userId: user.id,
+        email: user.email,
+        supplier: user.supplier
       });
       const token = tokenOrError.getValue();
       // returns token

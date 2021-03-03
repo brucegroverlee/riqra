@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
+    supplier: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
     username: {
       type: DataTypes.STRING(250),
       allowNull: true
