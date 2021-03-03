@@ -16,8 +16,8 @@
     "esModuleInterop": true,
   },
   "include": [
-    "src/infra/sequelize/**/*.js",
-    "src/infra/sequelize/**/*.ts",
+    "src/infrastructure/sequelize/**/*.js",
+    "src/infrastructure/sequelize/**/*.ts",
     "./src/**/*.js",
     "./src/**/*.ts",
     "./src/**/*.js",

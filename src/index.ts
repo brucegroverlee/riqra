@@ -1,7 +1,7 @@
 
 // Infra
-import "./infra/http/app"
-import "./infra/sequelize"
+import "./infrastructure/http/app"
+import "./infrastructure/sequelize"
 
 // Subdomains
 // import "./modules/billing"
