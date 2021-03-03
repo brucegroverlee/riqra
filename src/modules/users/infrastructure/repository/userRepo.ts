@@ -1,14 +1,7 @@
-
 import { User } from "../../domain/user";
 import { UserMap } from "../mappers/UserMap";
 import { UserEmail } from "../../domain/userEmail";
-
-export interface IUserRepo {
-  findUserByEmail(email: UserEmail): Promise<User>;
-  findUserByUsername (username: string): Promise<User>;
-  exists (email: UserEmail): Promise<boolean>;
-  save(user: User): Promise<void>;
-}
+import { IUserRepo } from "../../useCases/ports/IUserRepo";
 
 export class UserRepo implements IUserRepo {
   private models: any;

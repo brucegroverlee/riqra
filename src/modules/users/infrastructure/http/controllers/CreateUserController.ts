@@ -1,10 +1,10 @@
-
-import { BaseController } from "../../../../core/infra/BaseController";
-import { CreateUserUseCase } from "./CreateUserUseCase";
-import { CreateUserDTO } from "./CreateUserDTO";
-import { ITokenDTO } from "./ITokenDTO";
-import { Result, Right } from "../../../../core/logic/Result";
-import { CreateUserErrors } from "./CreateUserErrors";
+import { BaseController } from "../../../../../core/infra/BaseController";
+import { userRepo } from "../../repository/index";
+import { CreateUserUseCase } from "../../../useCases/createUser/CreateUserUseCase";
+import { CreateUserDTO } from "../../../useCases/createUser/CreateUserDTO";
+import { ITokenDTO } from "../../../useCases/createUser/ITokenDTO";
+import { Result, Right } from "../../../../../core/logic/Result";
+import { CreateUserErrors } from "../../../useCases/createUser/CreateUserErrors";
 
 export class CreateUserController extends BaseController {
   private useCase: CreateUserUseCase;
@@ -39,3 +39,8 @@ export class CreateUserController extends BaseController {
     }
   }
 }
+
+const createUserUseCase = new CreateUserUseCase(userRepo);
+export const createUserController = new CreateUserController(
+  createUserUseCase
+);

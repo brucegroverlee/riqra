@@ -1,5 +1,5 @@
 
-import * as express from 'express'
+import * as express from 'express';
 
 export abstract class BaseController {
   // or even private

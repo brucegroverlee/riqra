@@ -8,7 +8,7 @@ import { UserPassword } from "../../domain/userPassword";
 import { Supplier } from "../../domain/Supplier";
 import { UserToken } from "../../domain/userToken";
 import { User } from "../../domain/user";
-import { IUserRepo } from "../../infra/repos/userRepo";
+import { IUserRepo } from "../ports/IUserRepo";
 import { CreateUserErrors } from "./CreateUserErrors";
 import { GenericAppError } from "../../../../core/logic/AppError";
 
@@ -63,6 +63,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
         if (!repositoryPassword.equals(requestPassword)) {
           return left(new CreateUserErrors.InvalidPassword()) as Response;
         }
+        // assign the user from the repository
         user = userAlreadyExists;
       } else {
         // if the email does not exist a new user is automatically created

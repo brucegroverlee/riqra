@@ -22,7 +22,7 @@ User catalog personalization.
 [x] When the email exists and the password is incorrect the API must respond "Oops! wrong password".
 [x] When the email exists and password is correct a new token is generated for further requests.
 [x] When the email does not exist a new user is automatically created (auto signup) and a new token is generated for further requests.
-[] When a new user is created a welcome email is sent to its inbox.
+[x] When a new user is created a welcome email is sent to its inbox.
 [x] When a new user is registered a supplier is randomly assigned to its account.
 
 #### Catalog Module

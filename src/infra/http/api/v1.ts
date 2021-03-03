@@ -1,6 +1,6 @@
 
-import express from 'express'
-import { userRouter } from '../../../modules/users/infra/http/routes';
+import express from 'express';
+import { userRouter } from '../../../modules/users/infrastructure/http/router';
 
 const v1Router = express.Router();
 

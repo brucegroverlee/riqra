@@ -1,6 +1,6 @@
 
 import { AssignInitialUsername } from "./AssignInitialUsername";
-import { userRepo } from "../../infra/repos";
+import { userRepo } from "../../infrastructure/repository";
 
 const assignInitialUsername = new AssignInitialUsername(userRepo);
 
