@@ -1,9 +1,8 @@
 
-import { UserRepo } from "./userRepo";
-import models from "../../../../infrastructure/sequelize/models";
+import { UserRepository } from "./UserRepository";
 
-const userRepo = new UserRepo(models);
+const userRepository = new UserRepository();
 
 export {
-  userRepo
+  userRepository
 }

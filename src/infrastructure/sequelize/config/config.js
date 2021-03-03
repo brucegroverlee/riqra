@@ -2,8 +2,8 @@ require('dotenv').config()
 const Sequelize = require('sequelize');
 
 const { 
-  WHITE_LABEL_DB_USER,
-  WHITE_LABEL_DB_PASS,
+  WHITE_LABEL_DB_USER, 
+  WHITE_LABEL_DB_PASS, 
   WHITE_LABEL_DB_HOST,
   WHITE_LABEL_DB_PORT,
   WHITE_LABEL_DB_DEV_DB_NAME,

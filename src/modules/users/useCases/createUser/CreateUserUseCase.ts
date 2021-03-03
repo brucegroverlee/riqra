@@ -8,21 +8,21 @@ import { UserPassword } from "../../domain/userPassword";
 import { Supplier } from "../../domain/Supplier";
 import { UserToken } from "../../domain/userToken";
 import { User } from "../../domain/user";
-import { IUserRepo } from "../ports/IUserRepo";
+import { IUserRepository } from "../ports/IUserRepository";
 import { CreateUserErrors } from "./CreateUserErrors";
 import { GenericAppError } from "../../../../core/logic/AppError";
 
 type Response = Either<
   GenericAppError.UnexpectedError |
-  CreateUserErrors.AccountAlreadyExists |
+  CreateUserErrors.InvalidPassword |
   Result<any>, 
   Result<ITokenDTO>
 >
 
 export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Response>> {
-  private userRepo: IUserRepo;
+  private userRepo: IUserRepository;
 
-  constructor (userRepo: IUserRepo) {
+  constructor (userRepo: IUserRepository) {
     this.userRepo = userRepo;
   }
 

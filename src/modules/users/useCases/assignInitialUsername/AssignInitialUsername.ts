@@ -2,7 +2,7 @@
 import { UseCase } from "../../../../core/domain/UseCase";
 import { User } from "../../domain/user";
 import { Result } from "../../../../core/logic/Result";
-import { IUserRepo } from "../ports/IUserRepo";
+import { IUserRepository } from "../ports/IUserRepository";
 
 interface Request {
   user: User;
@@ -11,9 +11,9 @@ interface Request {
 type Response = Result<void>;
 
 export class AssignInitialUsername implements UseCase<Request, Promise<Response>> {
-  private userRepo: IUserRepo;
+  private userRepo: IUserRepository;
   
-  constructor (userRepo: IUserRepo) {
+  constructor (userRepo: IUserRepository) {
     this.userRepo = userRepo;
   }
 

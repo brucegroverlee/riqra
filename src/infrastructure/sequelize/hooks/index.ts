@@ -1,5 +1,4 @@
-
-import models from '../models';
+import { UsersModel } from '../models/users';
 import { DomainEvents } from '../../../core/domain/events/DomainEvents';
 import { UniqueEntityID } from '../../../core/domain/UniqueEntityID';
 
@@ -10,12 +9,9 @@ const dispatchEventsCallback = (model: any, primaryKeyField: string) => {
 
 (async function createHooksForAggregateRoots () {
 
-  const { Users } = models;
-
-  Users.addHook('afterCreate', (m: any) => dispatchEventsCallback(m, 'id'));
-  Users.addHook('afterDestroy', (m: any) => dispatchEventsCallback(m, 'id'));
-  Users.addHook('afterUpdate', (m: any) => dispatchEventsCallback(m, 'id'));
-  Users.addHook('afterSave', (m: any) => dispatchEventsCallback(m, 'id'));
-  Users.addHook('afterUpsert', (m: any) => dispatchEventsCallback(m, 'id'));
-
+  UsersModel.addHook('afterCreate', (m: any) => dispatchEventsCallback(m, 'id'));
+  UsersModel.addHook('afterDestroy', (m: any) => dispatchEventsCallback(m, 'id'));
+  UsersModel.addHook('afterUpdate', (m: any) => dispatchEventsCallback(m, 'id'));
+  UsersModel.addHook('afterSave', (m: any) => dispatchEventsCallback(m, 'id'));
+  // UsersModel.addHook('afterUpsert', (m: any) => dispatchEventsCallback(m, 'id'));
 })();

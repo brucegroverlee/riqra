@@ -1,8 +1,8 @@
 
 import { AssignInitialUsername } from "./AssignInitialUsername";
-import { userRepo } from "../../infrastructure/repository";
+import { userRepository } from "../../infrastructure/repository";
 
-const assignInitialUsername = new AssignInitialUsername(userRepo);
+const assignInitialUsername = new AssignInitialUsername(userRepository);
 
 export {
   assignInitialUsername

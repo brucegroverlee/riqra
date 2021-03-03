@@ -1,17 +1,12 @@
+import { UsersModel } from "../../../../infrastructure/sequelize/models/users";
 import { User } from "../../domain/user";
 import { UserMap } from "../mappers/UserMap";
 import { UserEmail } from "../../domain/userEmail";
-import { IUserRepo } from "../../useCases/ports/IUserRepo";
+import { IUserRepository } from "../../useCases/ports/IUserRepository";
 
-export class UserRepo implements IUserRepo {
-  private models: any;
-
-  constructor (models: any) {
-    this.models = models;
-  }
+export class UserRepository implements IUserRepository {
 
   private createBaseQuery () {
-    const { models } = this;
     return {
       where: {},
       include: []
@@ -21,7 +16,7 @@ export class UserRepo implements IUserRepo {
   public async findUserByUsername (username: string): Promise<User> {
     const baseQuery = this.createBaseQuery();
     baseQuery.where['username'] = username;
-    const user = await this.models.Users.findOne(baseQuery);
+    const user = await UsersModel.findOne(baseQuery);
     if (!!user === true) return user;
     return null;
   }
@@ -29,7 +24,7 @@ export class UserRepo implements IUserRepo {
   public async findUserByEmail(email: UserEmail): Promise<User> {
     const baseQuery = this.createBaseQuery();
     baseQuery.where['email'] = email.value.toString();
-    const user = await this.models.Users.findOne(baseQuery);
+    const user = await UsersModel.findOne(baseQuery);
     if (!!user === true) {
       return UserMap.toDomain(user);
     }
@@ -39,24 +34,23 @@ export class UserRepo implements IUserRepo {
   public async exists (email: UserEmail): Promise<boolean> {
     const baseQuery = this.createBaseQuery();
     baseQuery.where['email'] = email.value.toString();
-    const user = await this.models.Users.findOne(baseQuery);
+    const user = await UsersModel.findOne(baseQuery);
     return !!user === true;
   }
 
   public async save (user: User): Promise<void> {
-    const BaseUserModel = this.models.Users;
     const exists = await this.exists(user.email);
     const rawUser = UserMap.toPersistence(user);
     
     try {
       if (!exists) {
         // Create new
-        await BaseUserModel.create(rawUser);
+        await UsersModel.create(rawUser);
       } 
       
       else {
         // Save old
-        const sequelizeUserInstance = await BaseUserModel.findOne({ 
+        const sequelizeUserInstance = await UsersModel.findOne({ 
           where: { email: user.email.value }
         })
         await sequelizeUserInstance.update(rawUser);
@@ -64,5 +58,11 @@ export class UserRepo implements IUserRepo {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  public async delete(query: object): Promise<void> {
+    await UsersModel.destroy({
+      where: {...query},
+    });
   }
 }

@@ -132,8 +132,6 @@ describe('Domain Events', () => {
 
       // There should be no more domain events in the list
       expect(DomainEvents['markedAggregates']['length']).toBe(0);
-
-
     })
   });
 });

@@ -1,5 +1,5 @@
 import { BaseController } from "../../../../../core/infra/BaseController";
-import { userRepo } from "../../repository/index";
+import { userRepository } from "../../repository/index";
 import { CreateUserUseCase } from "../../../useCases/createUser/CreateUserUseCase";
 import { CreateUserDTO } from "../../../useCases/createUser/CreateUserDTO";
 import { ITokenDTO } from "../../../useCases/createUser/ITokenDTO";
@@ -40,7 +40,7 @@ export class CreateUserController extends BaseController {
   }
 }
 
-const createUserUseCase = new CreateUserUseCase(userRepo);
+const createUserUseCase = new CreateUserUseCase(userRepository);
 export const createUserController = new CreateUserController(
   createUserUseCase
 );
