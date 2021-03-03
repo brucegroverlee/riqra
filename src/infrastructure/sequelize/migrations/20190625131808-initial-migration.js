@@ -1,5 +1,4 @@
 'use strict';
-// import runner from '../runner'
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

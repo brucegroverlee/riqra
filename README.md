@@ -8,7 +8,7 @@ Things we require your code to have:
 [x] Messaging (Commands and Events)
 [x] Code organization (modularity, dependencies between modules, etc)
 [x] Exception handling and logging
-[] Writing and organizing tests
+[x] Writing and organizing tests
 [x] Task-based asynchronous programming
 
 No UI needed.
